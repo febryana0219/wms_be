@@ -1,0 +1,4 @@
+FROM ghcr.io/citusdata/pg_cron:15
+
+# Jalankan postgres dengan konfigurasi pg_cron
+CMD ["postgres", "-c", "shared_preload_libraries=pg_cron", "-c", "cron.database_name=wms_db", "-c", "listen_addresses=*"]
