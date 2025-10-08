@@ -94,8 +94,12 @@ docker ps
 3. Migrasi database
 
 ```
-psql -U postgres -d wms_db -f /path/to/migrations/001_init_warehouses.up.sql
+cd wms_be
+
+migrate -path ./database/migrations -database "postgres://postgres:postgres@localhost:55432/wms_db?sslmode=disable" up
 ```
+
+- untuk port dan nama db bisa di sesuaikan
 
 # ulangi untuk file migrations lainnya
 
