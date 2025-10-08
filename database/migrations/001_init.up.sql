@@ -23,6 +23,9 @@ CREATE TABLE public.warehouses (
 CREATE INDEX idx_warehouses_code ON public.warehouses USING btree (code);
 CREATE INDEX idx_warehouses_is_active ON public.warehouses USING btree (is_active);
 
+-- DROP TYPE public."user_role";
+CREATE TYPE public."user_role" AS ENUM ('admin','staff');
+
 -- DROP TABLE public.users;
 
 CREATE TABLE public.users (
@@ -189,6 +192,9 @@ insert or delete or update on public.products for each row execute function upda
 -- public.products foreign keys
 ALTER TABLE public.products ADD CONSTRAINT products_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id);
 
+-- DROP TYPE public."transaction_type";
+CREATE TYPE public."transaction_type" AS ENUM ('pending_payment','confirmed','processing','shipped','delivered','cancelled','expired','transfer','inbound','outbound','checkout','release');
+	
 -- DROP TABLE public.transactions;
 
 CREATE TABLE public.transactions (
@@ -375,6 +381,9 @@ ALTER TABLE public.inbounds ADD CONSTRAINT inbound_records_created_by_fkey FOREI
 ALTER TABLE public.inbounds ADD CONSTRAINT inbound_records_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
 ALTER TABLE public.inbounds ADD CONSTRAINT inbound_records_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id);
 
+-- DROP TYPE public."outbound_destination_type";
+CREATE TYPE public."outbound_destination_type" AS ENUM ('customer','warehouse','supplier','other');
+
 -- DROP TABLE public.outbounds;
 
 CREATE TABLE public.outbounds (
@@ -427,6 +436,8 @@ ALTER TABLE public.outbounds ADD CONSTRAINT outbound_records_created_by_fkey FOR
 ALTER TABLE public.outbounds ADD CONSTRAINT outbound_records_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
 ALTER TABLE public.outbounds ADD CONSTRAINT outbound_records_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id);
 
+-- DROP TYPE public."order_status";
+CREATE TYPE public."order_status" AS ENUM ('pending_payment','confirmed','processing','shipped','delivered','cancelled','expired');
 
 -- DROP TABLE public.orders;
 
