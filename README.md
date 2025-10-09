@@ -112,12 +112,18 @@ migrate -path ./database/migrations -database "postgres://postgres:postgres@loca
 go version
 ```
 
-2. Jalankan backend:
+2. Instalasi Dependensi:
+
+```
+go mod tidy
+```
+
+3. Jalankan backend:
 
 ```
 go run cmd/main.go
 ```
-- Server akan berjalan di `ocalhost:8000`.
+- Server akan berjalan di `localhost:8000`.
 
 ## 👨‍💻 Author
 
