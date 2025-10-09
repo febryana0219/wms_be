@@ -1,4 +1,12 @@
-FROM ghcr.io/citusdata/pg_cron:15
+FROM postgres:15
 
-# Jalankan postgres dengan konfigurasi pg_cron
+# Install extension pg_cron
+RUN apt-get update && \
+    apt-get install -y postgresql-15-cron && \
+    rm -rf /var/lib/apt/lists/*
+
+# Salin konfigurasi tambahan (opsional)
+# COPY ./init.sql /docker-entrypoint-initdb.d/
+
+# Aktifkan pg_cron otomatis
 CMD ["postgres", "-c", "shared_preload_libraries=pg_cron", "-c", "cron.database_name=wms_db", "-c", "listen_addresses=*"]

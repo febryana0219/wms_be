@@ -1,26 +1,24 @@
-version: '3.9'
-
 services:
-  postgres:
+  wms_postgres:
     build:
       context: .
       dockerfile: Dockerfile.postgres
     container_name: wms_postgres
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: wms_db
     ports:
-      - "55432:5432"
+      - "5433:5432"
     volumes:
       - wms_postgres_data:/var/lib/postgresql/data
     networks:
-      - wms_network
+      - shared_network
 
 volumes:
   wms_postgres_data:
 
 networks:
-  wms_network:
-    driver: bridge
+  shared_network:
+    external: true

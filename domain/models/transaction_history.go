@@ -21,7 +21,6 @@ type TransactionHistory struct {
 	CreatedBy       string    `json:"created_by"`
 	CreatedByName   string    `json:"created_by_name"`
 	CreatedAt       time.Time `json:"created_at"`
-	Order           Order     `gorm:"foreignKey:OrderID;references:ID"`
 }
 
 func GetAllTransactionHistory() ([]TransactionHistory, error) {
