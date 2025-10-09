@@ -3,22 +3,25 @@ package handler
 import (
 	"net/http"
 	"wms-be/domain/services"
-	"wms-be/infrastructure/database"
 	"wms-be/interfaces/http/response"
 
 	"github.com/gin-gonic/gin"
 )
 
-func GetDashboard(c *gin.Context) {
-	db := database.GetDB()
+type DashboardHandler struct {
+	service *services.DashboardService
+}
 
-	dashboardService := services.NewDashboardService(db)
+func NewDashboardHandler(service *services.DashboardService) *DashboardHandler {
+	return &DashboardHandler{service: service}
+}
 
-	data, err := dashboardService.GetDashboardSummary()
+func (h *DashboardHandler) GetDashboard(c *gin.Context) {
+	summary, err := h.service.GetDashboardSummary()
 	if err != nil {
 		response.ErrorMessageResponse(c, err, http.StatusInternalServerError)
 		return
 	}
 
-	response.SuccessResponse(c, data, "Dashboard summary fetched successfully")
+	response.SuccessResponse(c, summary, "Dashboard summary fetched successfully")
 }

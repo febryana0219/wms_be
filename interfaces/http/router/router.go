@@ -46,6 +46,7 @@ func SetupRouter(
 	// Ambil koneksi DB dari package database
 	db := database.GetDB()
 	transactionHistoryService := services.NewTransactionHistoryService(db)
+	dashboardService := services.NewDashboardService(db)
 
 	// Initialize Handlers
 	warehouseHandler := handler.NewWarehouseHandler(warehouseService)
@@ -55,6 +56,7 @@ func SetupRouter(
 	inboundHandler := handler.NewInboundHandler(inboundService)
 	outboundHandler := handler.NewOutboundHandler(outboundService)
 	orderHandler := handler.NewOrderHandler(orderService)
+	dashboardHandler := handler.NewDashboardHandler(dashboardService)
 
 	// API Prefix
 	api := r.Group("/api")
@@ -135,9 +137,9 @@ func SetupRouter(
 	}
 
 	// Dashboard Routes
-	dashboardRoutes := api.Group("/dashboard").Use(middleware.AuthMiddleware())
+	dashboardRoutes := api.Group("/dashboard", middleware.AuthMiddleware())
 	{
-		dashboardRoutes.GET("/stats", handler.GetDashboard)
+		dashboardRoutes.GET("/stats", dashboardHandler.GetDashboard)
 	}
 
 	return r
